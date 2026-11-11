@@ -1,0 +1,148 @@
+# ============================================================
+# SCIAD — Backend (API .NET 8)
+# 2 réplicas repartidas entre nodos, actualización sin caída,
+# sondas de salud y el mismo endurecimiento OWASP A05 de Docker Compose:
+# usuario no root, sistema de archivos de solo lectura, sin capacidades.
+# ============================================================
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: jsalazart3
+  labels:
+    app.kubernetes.io/name: sciad-backend
+    app.kubernetes.io/part-of: sciad
+spec:
+  selector:
+    app.kubernetes.io/name: sciad-backend
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: jsalazart3
+  labels:
+    app.kubernetes.io/name: sciad-backend
+    app.kubernetes.io/part-of: sciad
+spec:
+  replicas: 2
+  revisionHistoryLimit: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: sciad-backend
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: sciad-backend
+        app.kubernetes.io/part-of: sciad
+    spec:
+      automountServiceAccountToken: false
+      imagePullSecrets:
+        - name: ghcr-pull
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1654
+        runAsGroup: 1654
+        seccompProfile:
+          type: RuntimeDefault
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: sciad-backend
+      containers:
+        - name: api
+          image: ghcr.io/josesalazart3/sciad-backend:1.0.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Production
+            - name: ASPNETCORE_URLS
+              value: http://+:8080
+            - name: Cors__Origins
+              value: https://jsalazart3-sciad.duckdns.org
+            - name: AllowedHosts
+              value: jsalazart3-sciad.duckdns.org;localhost
+            # Detrás de Traefik + nginx las IPs de los pods cambian: no se fija KnownProxies.
+            # El límite de login se comparte entre clientes, por eso se amplía (ver documentación).
+            - name: RateLimit__LoginPermitLimit
+              value: "30"
+            - name: RateLimit__LoginWindowSeconds
+              value: "300"
+            - name: RateLimit__GlobalPermitLimit
+              value: "1500"
+          envFrom:
+            - secretRef:
+                name: sciad-secrets
+          resources:
+            requests:
+              memory: 192Mi
+              cpu: 60m
+            limits:
+              memory: 512Mi
+              cpu: 400m
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          # AllowedHosts rechaza Host desconocidos: las sondas envían Host: localhost.
+          startupProbe:
+            httpGet:
+              path: /api/health
+              port: 8080
+              httpHeaders:
+                - name: Host
+                  value: localhost
+            periodSeconds: 5
+            failureThreshold: 30
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: 8080
+              httpHeaders:
+                - name: Host
+                  value: localhost
+            periodSeconds: 10
+            timeoutSeconds: 5
+          livenessProbe:
+            tcpSocket:
+              port: 8080
+            periodSeconds: 20
+            failureThreshold: 3
+          lifecycle:
+            preStop:
+              exec:
+                command: ["sleep", "10"]
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: tmp
+          emptyDir:
+            sizeLimit: 64Mi
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: backend
+  namespace: jsalazart3
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: sciad-backend

@@ -1,0 +1,33 @@
+Reporte de cobertura de código — dotnet test --collect:"XPlat Code Coverage" + ReportGenerator 5.x (HTML)
+Generado a partir de: sciad-backend/tests/Sciad.Tests/TestResults/*/coverage.cobertura.xml
+Suite: Sciad.Tests.dll — 162/162 pruebas pasaron (ver 18_dotnet_test.txt)
+
+===== RESUMEN GLOBAL =====
+Covered lines:    1049
+Uncovered lines:  4707
+Coverable lines:  5756
+Total lines:      8229
+Line coverage:    18.2%
+
+Covered branches: 273
+Total branches:   504
+Branch coverage:  54.1%
+
+===== RESUMEN POR CAPA (assembly) =====
+Capa                  Cubiertas  No cub.  Cubribles  Total  % líneas   Branch cub/tot   % branch
+Sciad.Domain          80         2        82         253    97.5%      0/0              -
+Sciad.Application     969        51       1020       1958   95.0%      273/318          85.8%
+Sciad.Infrastructure  0          4192     4192       4902   0%         0/62             0%
+Sciad.Api             0          462      462        1116   0%         0/124            0%
+
+Nota: la suite Sciad.Tests son pruebas unitarias enfocadas en Domain y Application (reglas de
+negocio), por lo que Infrastructure (acceso a datos vía EF Core) y Api (controladores) no están
+cubiertas por pruebas unitarias — esas capas se validan mediante las pruebas de integración
+end-to-end (verify-seguridad.mjs, verify-rl.mjs, verify-carga.mjs) contra el contenedor real,
+no mediante cobertura de línea.
+
+===== EVIDENCIA VISUAL PENDIENTE (manual) =====
+El reporte HTML completo, navegable, está en: evidencia_visual/19_cobertura_html/index.html
+Ábrelo en un navegador y captura la vista de resumen por capa (la tabla de arriba, renderizada)
+para usarla como Figura 19. No pude generar esa captura yo mismo: no tengo herramienta de
+automatización de navegador en esta sesión.

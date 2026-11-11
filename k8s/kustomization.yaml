@@ -1,0 +1,11 @@
+# Despliegue completo:   kubectl apply -k k8s/
+# (El Secret y la NetworkPolicy se aplican aparte; ver DESPLIEGUE_KUBERNETES.md)
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: jsalazart3
+resources:
+  - 00-configmap-nginx.yaml
+  - 02-db.yaml
+  - 03-backend.yaml
+  - 04-frontend.yaml
+  - 05-ingress.yaml

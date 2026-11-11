@@ -1,0 +1,166 @@
+== Sesiones demo (3 roles) ==
+  Sesiones OK (admin / seguridad / gerencia), sufijo=80533759
+
+== SEC-05: Matriz RBAC endpoint × rol ==
+  ✓ GET /api/auth/me  [anon] → 401 (esperaba 401) 
+  ✓ GET /api/auth/me  [ADMIN] → 200 (esperaba ≠401/403) 
+  ✓ GET /api/auth/me  [SEGURIDAD] → 200 (esperaba ≠401/403) 
+  ✓ GET /api/auth/me  [GERENCIA] → 200 (esperaba ≠401/403) 
+  ✓ GET /api/auth/role-check  [anon] → 401 (esperaba 401) 
+  ✓ GET /api/auth/role-check  [ADMIN] → 200 (esperaba ≠401/403) 
+  ✓ GET /api/auth/role-check  [SEGURIDAD] → 403 (esperaba 403) 
+  ✓ GET /api/auth/role-check  [GERENCIA] → 403 (esperaba 403) 
+  ✓ GET /api/zonas-acceso  [anon] → 401 (esperaba 401) 
+  ✓ GET /api/zonas-acceso  [ADMIN] → 200 (esperaba ≠401/403) 
+  ✓ GET /api/zonas-acceso  [SEGURIDAD] → 200 (esperaba ≠401/403) 
+  ✓ GET /api/zonas-acceso  [GERENCIA] → 200 (esperaba ≠401/403) 
+  ✓ POST /api/zonas-acceso  [anon] → 401 (esperaba 401) 
+  ✓ POST /api/zonas-acceso  [ADMIN] → 400 (esperaba ≠401/403) 
+  ✓ POST /api/zonas-acceso  [SEGURIDAD] → 403 (esperaba 403) 
+  ✓ POST /api/zonas-acceso  [GERENCIA] → 403 (esperaba 403) 
+  ✓ PUT /api/zonas-acceso/999999999  [anon] → 401 (esperaba 401) 
+  ✓ PUT /api/zonas-acceso/999999999  [ADMIN] → 400 (esperaba ≠401/403) 
+  ✓ PUT /api/zonas-acceso/999999999  [SEGURIDAD] → 403 (esperaba 403) 
+  ✓ PUT /api/zonas-acceso/999999999  [GERENCIA] → 403 (esperaba 403) 
+  ✓ PATCH /api/zonas-acceso/999999999/estado  [anon] → 401 (esperaba 401) 
+  ✓ PATCH /api/zonas-acceso/999999999/estado  [ADMIN] → 404 (esperaba ≠401/403) 
+  ✓ PATCH /api/zonas-acceso/999999999/estado  [SEGURIDAD] → 403 (esperaba 403) 
+  ✓ PATCH /api/zonas-acceso/999999999/estado  [GERENCIA] → 403 (esperaba 403) 
+  ✓ GET /api/personas  [anon] → 401 (esperaba 401) 
+  ✓ GET /api/personas  [ADMIN] → 200 (esperaba ≠401/403) 
+  ✓ GET /api/personas  [SEGURIDAD] → 403 (esperaba 403) 
+  ✓ GET /api/personas  [GERENCIA] → 403 (esperaba 403) 
+  ✓ POST /api/personas  [anon] → 401 (esperaba 401) 
+  ✓ POST /api/personas  [ADMIN] → 400 (esperaba ≠401/403) 
+  ✓ POST /api/personas  [SEGURIDAD] → 403 (esperaba 403) 
+  ✓ POST /api/personas  [GERENCIA] → 403 (esperaba 403) 
+  ✓ PUT /api/personas/999999999  [anon] → 401 (esperaba 401) 
+  ✓ PUT /api/personas/999999999  [ADMIN] → 400 (esperaba ≠401/403) 
+  ✓ PUT /api/personas/999999999  [SEGURIDAD] → 403 (esperaba 403) 
+  ✓ PUT /api/personas/999999999  [GERENCIA] → 403 (esperaba 403) 
+  ✓ PATCH /api/personas/999999999/estado  [anon] → 401 (esperaba 401) 
+  ✓ PATCH /api/personas/999999999/estado  [ADMIN] → 400 (esperaba ≠401/403) 
+  ✓ PATCH /api/personas/999999999/estado  [SEGURIDAD] → 403 (esperaba 403) 
+  ✓ PATCH /api/personas/999999999/estado  [GERENCIA] → 403 (esperaba 403) 
+  ✓ GET /api/perfiles-acceso  [anon] → 401 (esperaba 401) 
+  ✓ GET /api/perfiles-acceso  [ADMIN] → 200 (esperaba ≠401/403) 
+  ✓ GET /api/perfiles-acceso  [SEGURIDAD] → 403 (esperaba 403) 
+  ✓ GET /api/perfiles-acceso  [GERENCIA] → 403 (esperaba 403) 
+  ✓ POST /api/perfiles-acceso  [anon] → 401 (esperaba 401) 
+  ✓ POST /api/perfiles-acceso  [ADMIN] → 400 (esperaba ≠401/403) 
+  ✓ POST /api/perfiles-acceso  [SEGURIDAD] → 403 (esperaba 403) 
+  ✓ POST /api/perfiles-acceso  [GERENCIA] → 403 (esperaba 403) 
+  ✓ DELETE /api/perfiles-acceso/999999999  [anon] → 401 (esperaba 401) 
+  ✓ DELETE /api/perfiles-acceso/999999999  [ADMIN] → 404 (esperaba ≠401/403) 
+  ✓ DELETE /api/perfiles-acceso/999999999  [SEGURIDAD] → 403 (esperaba 403) 
+  ✓ DELETE /api/perfiles-acceso/999999999  [GERENCIA] → 403 (esperaba 403) 
+  ✓ GET /api/credenciales  [anon] → 401 (esperaba 401) 
+  ✓ GET /api/credenciales  [ADMIN] → 200 (esperaba ≠401/403) 
+  ✓ GET /api/credenciales  [SEGURIDAD] → 403 (esperaba 403) 
+  ✓ GET /api/credenciales  [GERENCIA] → 403 (esperaba 403) 
+  ✓ POST /api/credenciales/999999999/generar  [anon] → 401 (esperaba 401) 
+  ✓ POST /api/credenciales/999999999/generar  [ADMIN] → 404 (esperaba ≠401/403) 
+  ✓ POST /api/credenciales/999999999/generar  [SEGURIDAD] → 403 (esperaba 403) 
+  ✓ POST /api/credenciales/999999999/generar  [GERENCIA] → 403 (esperaba 403) 
+  ✓ POST /api/credenciales/999999999/reemitir  [anon] → 401 (esperaba 401) 
+  ✓ POST /api/credenciales/999999999/reemitir  [ADMIN] → 404 (esperaba ≠401/403) 
+  ✓ POST /api/credenciales/999999999/reemitir  [SEGURIDAD] → 403 (esperaba 403) 
+  ✓ POST /api/credenciales/999999999/reemitir  [GERENCIA] → 403 (esperaba 403) 
+  ✓ POST /api/credenciales/999999999/revocar  [anon] → 401 (esperaba 401) 
+  ✓ POST /api/credenciales/999999999/revocar  [ADMIN] → 404 (esperaba ≠401/403) 
+  ✓ POST /api/credenciales/999999999/revocar  [SEGURIDAD] → 403 (esperaba 403) 
+  ✓ POST /api/credenciales/999999999/revocar  [GERENCIA] → 403 (esperaba 403) 
+  ✓ GET /api/usuarios  [anon] → 401 (esperaba 401) 
+  ✓ GET /api/usuarios  [ADMIN] → 200 (esperaba ≠401/403) 
+  ✓ GET /api/usuarios  [SEGURIDAD] → 403 (esperaba 403) 
+  ✓ GET /api/usuarios  [GERENCIA] → 403 (esperaba 403) 
+  ✓ POST /api/usuarios  [anon] → 401 (esperaba 401) 
+  ✓ POST /api/usuarios  [ADMIN] → 400 (esperaba ≠401/403) 
+  ✓ POST /api/usuarios  [SEGURIDAD] → 403 (esperaba 403) 
+  ✓ POST /api/usuarios  [GERENCIA] → 403 (esperaba 403) 
+  ✓ PUT /api/usuarios/999999999  [anon] → 401 (esperaba 401) 
+  ✓ PUT /api/usuarios/999999999  [ADMIN] → 400 (esperaba ≠401/403) 
+  ✓ PUT /api/usuarios/999999999  [SEGURIDAD] → 403 (esperaba 403) 
+  ✓ PUT /api/usuarios/999999999  [GERENCIA] → 403 (esperaba 403) 
+  ✓ PATCH /api/usuarios/999999999/estado  [anon] → 401 (esperaba 401) 
+  ✓ PATCH /api/usuarios/999999999/estado  [ADMIN] → 400 (esperaba ≠401/403) 
+  ✓ PATCH /api/usuarios/999999999/estado  [SEGURIDAD] → 403 (esperaba 403) 
+  ✓ PATCH /api/usuarios/999999999/estado  [GERENCIA] → 403 (esperaba 403) 
+  ✓ GET /api/registros-acceso  [anon] → 401 (esperaba 401) 
+  ✓ GET /api/registros-acceso  [ADMIN] → 200 (esperaba ≠401/403) 
+  ✓ GET /api/registros-acceso  [SEGURIDAD] → 403 (esperaba 403) 
+  ✓ GET /api/registros-acceso  [GERENCIA] → 200 (esperaba ≠401/403) 
+  ✓ GET /api/registros-acceso/hoy  [anon] → 401 (esperaba 401) 
+  ✓ GET /api/registros-acceso/hoy  [ADMIN] → 200 (esperaba ≠401/403) 
+  ✓ GET /api/registros-acceso/hoy  [SEGURIDAD] → 200 (esperaba ≠401/403) 
+  ✓ GET /api/registros-acceso/hoy  [GERENCIA] → 403 (esperaba 403) 
+  ✓ POST /api/registros-acceso  [anon] → 401 (esperaba 401) 
+  ✓ POST /api/registros-acceso  [ADMIN] → 400 (esperaba ≠401/403) 
+  ✓ POST /api/registros-acceso  [SEGURIDAD] → 400 (esperaba ≠401/403) 
+  ✓ POST /api/registros-acceso  [GERENCIA] → 403 (esperaba 403) 
+  ✓ GET /api/notificaciones  [anon] → 401 (esperaba 401) 
+  ✓ GET /api/notificaciones  [ADMIN] → 200 (esperaba ≠401/403) 
+  ✓ GET /api/notificaciones  [SEGURIDAD] → 403 (esperaba 403) 
+  ✓ GET /api/notificaciones  [GERENCIA] → 200 (esperaba ≠401/403) 
+  ✓ PATCH /api/notificaciones/999999999/leida  [anon] → 401 (esperaba 401) 
+  ✓ PATCH /api/notificaciones/999999999/leida  [ADMIN] → 404 (esperaba ≠401/403) 
+  ✓ PATCH /api/notificaciones/999999999/leida  [SEGURIDAD] → 403 (esperaba 403) 
+  ✓ PATCH /api/notificaciones/999999999/leida  [GERENCIA] → 404 (esperaba ≠401/403) 
+  ✓ GET /api/auditoria  [anon] → 401 (esperaba 401) 
+  ✓ GET /api/auditoria  [ADMIN] → 200 (esperaba ≠401/403) 
+  ✓ GET /api/auditoria  [SEGURIDAD] → 403 (esperaba 403) 
+  ✓ GET /api/auditoria  [GERENCIA] → 200 (esperaba ≠401/403) 
+  ✓ POST /api/auditoria/verificar  [anon] → 401 (esperaba 401) 
+  ✓ POST /api/auditoria/verificar  [ADMIN] → 200 (esperaba ≠401/403) 
+  ✓ POST /api/auditoria/verificar  [SEGURIDAD] → 403 (esperaba 403) 
+  ✓ POST /api/auditoria/verificar  [GERENCIA] → 403 (esperaba 403) 
+  ✓ PATCH /api/auditoria/999999999/estado  [anon] → 401 (esperaba 401) 
+  ✓ PATCH /api/auditoria/999999999/estado  [ADMIN] → 404 (esperaba ≠401/403) 
+  ✓ PATCH /api/auditoria/999999999/estado  [SEGURIDAD] → 403 (esperaba 403) 
+  ✓ PATCH /api/auditoria/999999999/estado  [GERENCIA] → 404 (esperaba ≠401/403) 
+  ✓ GET /api/reportes  [anon] → 401 (esperaba 401) 
+  ✓ GET /api/reportes  [ADMIN] → 200 (esperaba ≠401/403) 
+  ✓ GET /api/reportes  [SEGURIDAD] → 403 (esperaba 403) 
+  ✓ GET /api/reportes  [GERENCIA] → 200 (esperaba ≠401/403) 
+  ✓ POST /api/reportes/generar  [anon] → 401 (esperaba 401) 
+  ✓ POST /api/reportes/generar  [ADMIN] → 200 (esperaba ≠401/403) 
+  ✓ POST /api/reportes/generar  [SEGURIDAD] → 403 (esperaba 403) 
+  ✓ POST /api/reportes/generar  [GERENCIA] → 200 (esperaba ≠401/403) 
+  ✓ GET /api/health  [anon] → 200 (esperaba 200) 
+  ✓ GET /api/health  [ADMIN] → 200 (esperaba ≠401/403) 
+  ✓ GET /api/health  [SEGURIDAD] → 200 (esperaba ≠401/403) 
+  ✓ GET /api/health  [GERENCIA] → 200 (esperaba ≠401/403) 
+
+== SEC-02: Inyección SQL (payloads típicos) ==
+  ✓ GET /api/personas?estado='%20OR%20'1'%3D'1 → 400 · 20ms 
+  ✓ GET /api/personas?tipo=1%20OR%201%3D1 → 400 · 10ms 
+  ✓ GET /api/registros-acceso?tipo='%20OR%20'1'%3D'1 → 400 · 12ms 
+  ✓ GET /api/registros-acceso?zonaId=1%20OR%201%3D1 → 400 · 16ms 
+  ✓ GET /api/registros-acceso?personaId=1%3B%20SELECT%201 → 400 · 16ms 
+  ✓ GET /api/auditoria?tipo='%20UNION%20SELECT%201-- → 200 · 32ms 
+  ✓ GET /api/auditoria?estado='%20OR%20'1'%3D'1'%20-- → 200 · 31ms 
+  ✓ GET /api/auditoria?tipo=1)%20OR%20(1%3D1 → 200 · 36ms 
+  ✓ GET /api/auditoria?tipo='%20AND%20pg_sleep(5)%20IS%20NULL-- → 200 · 17ms 
+  ✓ POST /api/auth/login → 401 · 13ms 
+  ✓   filtro legítimo ?tipo=acceso_sin_egreso sigue operativo tras ataques 
+
+== SEC-03: XSS (reflejo en respuestas) ==
+  ✓ GET /api/auditoria?tipo=%3Cscript%3Ealert(1)%3C%2Fscript%3E → 200 
+  ✓ GET /api/auditoria?tipo=%3Cimg%20src%3Dx%20onerror%3Dalert(1)%3E → 200 
+  ✓ GET /api/auditoria?tipo=%22%3E%3Csvg%2Fonload%3Dalert(1)%3E → 200 
+  ✓ GET /api/registros-acceso?tipo=%3Cscript%3Ealert(1)%3C%2Fscript%3E → 400 
+  ✓ GET /api/registros-acceso?tipo=%3Cimg%20src%3Dx%20onerror%3Dalert(1)%3E → 400 
+  ✓ GET /api/registros-acceso?tipo=%22%3E%3Csvg%2Fonload%3Dalert(1)%3E → 400 
+  ✓ GET /api/personas?estado=%3Cscript%3Ealert(1)%3C%2Fscript%3E → 400 
+  ✓ GET /api/personas?estado=%3Cimg%20src%3Dx%20onerror%3Dalert(1)%3E → 400 
+  ✓ GET /api/personas?estado=%22%3E%3Csvg%2Fonload%3Dalert(1)%3E → 400 
+  ✓ POST /api/auth/login → 400 
+  ✓ POST /api/auth/login → 429 
+  ✓ POST /api/auth/login → 429 
+
+== SEC-07 (sanity API): cabeceras de seguridad ==
+  ✓   responde con content-type JSON 
+  (HSTS en la API: no presente — se termina TLS/HSTS en el proxy nginx, ver DESPLIEGUE.md.md)
+
+===== SEC-05/SEC-02/SEC-03: 152 ✓  /  0 ✗ =====
+EXIT CODE: 0

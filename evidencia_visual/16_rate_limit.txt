@@ -1,0 +1,14 @@
+== SEC-04: rate limit sobre login (permit=5/ventana) ==
+  ✓ intento 1 (credencial inválida) → 401 → 401
+  ✓ intento 2 (credencial inválida) → 401 → 401
+  ✓ intento 3 (credencial inválida) → 401 → 401
+  ✓ intento 4 (credencial inválida) → 401 → 401
+  ✓ intento 5 (credencial inválida) → 401 → 401
+  ✓ intento 6 con credencial VÁLIDA → 429 (bloqueado por ventana) → 429
+  ✓ respuesta 429 es Problem Details con code=RATE_LIMITED code=RATE_LIMITED
+  ✓ intento 7 → 429 persistente → 429
+
+Secuencia observada: #1=401  #2=401  #3=401  #4=401  #5=401  #6=429(válida)  #7=429
+
+===== SEC-04: 8 ✓  /  0 ✗ =====
+EXIT CODE: 0

@@ -1,0 +1,4 @@
+NAME             IMAGE                COMMAND                  SERVICE    CREATED          STATUS                    PORTS
+sciad-backend    sciad-backend        "dotnet Sciad.Api.dll"   backend    44 seconds ago   Up 41 seconds (healthy)   0.0.0.0:3000->8080/tcp, [::]:3000->8080/tcp
+sciad-db         postgres:16-alpine   "docker-entrypoint.s…"   db         9 days ago       Up 2 minutes (healthy)    5432/tcp
+sciad-frontend   sciad-frontend       "/docker-entrypoint.…"   frontend   44 seconds ago   Up 42 seconds (healthy)   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp

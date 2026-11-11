@@ -1,0 +1,32 @@
+# ============================================================
+# SCIAD — Túnel HTTPS para probar en el celular (Fase 2)
+#
+# La cámara del navegador SOLO funciona en HTTPS (o localhost). Este archivo añade un túnel
+# "quick tunnel" de Cloudflare (gratis, sin cuenta ni dominio) que publica el frontend con una
+# URL https://<palabras>.trycloudflare.com y certificado válido.
+#
+# Uso (junto al compose de desarrollo):
+#   docker compose -f docker-compose.yml -f docker-compose.tunnel.yml up -d --build
+#   ./scripts/url-celular.sh            # (Windows: .\scripts\url-celular.ps1)  → imprime la URL
+#   # Apagar el túnel cuando termines:
+#   docker compose -f docker-compose.yml -f docker-compose.tunnel.yml stop tunnel
+#
+# ⚠ SOLO PARA PRUEBAS. La URL es pública mientras el túnel esté encendido y el seeder crea
+#   cuentas demo con contraseña conocida (sciad123). No compartas la URL y apaga el túnel al
+#   terminar. Para uso real: VPS con dominio y TLS (DESPLIEGUE.md).
+# ============================================================
+services:
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    container_name: sciad-tunnel
+    # El SPA y /api salen por el mismo origen (nginx del frontend), así que no hay CORS.
+    command: tunnel --no-autoupdate --url http://frontend:80
+    depends_on:
+      - frontend
+    restart: unless-stopped
+
+  backend:
+    environment:
+      # Detrás de nginx/túnel todos los clientes llegan con la IP del proxy: el límite de login
+      # (5 por 5 min) se comparte entre TODOS. Se amplía solo para pruebas con varios celulares.
+      - RateLimit__LoginPermitLimit=30

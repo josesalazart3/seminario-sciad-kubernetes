@@ -1,0 +1,130 @@
+# ============================================================
+# SCIAD — Configuración de nginx para Kubernetes
+# Basada en nginx.vps.conf. Diferencias:
+#   • El TLS lo termina Traefik + cert-manager (Ingress): nginx escucha solo en 80.
+#   • Sin certbot ni redirecciones a :8443.
+#   • Se conservan CSP con nonce, HSTS y las cabeceras OWASP de la Fase 7.
+# Se monta sobre /etc/nginx/conf.d (reemplaza la config horneada en la imagen).
+# ============================================================
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sciad-nginx
+  namespace: jsalazart3
+  labels:
+    app.kubernetes.io/name: sciad-frontend
+    app.kubernetes.io/part-of: sciad
+data:
+  default.conf: |
+    server {
+        listen       80;
+        server_name  _;
+        server_tokens off;
+        absolute_redirect off;
+
+        root   /usr/share/nginx/html;
+        index  index.html;
+
+        gzip on;
+        gzip_types text/plain text/css application/javascript application/json image/svg+xml;
+        gzip_min_length 1024;
+
+        # Solo los métodos que usa la aplicación.
+        if ($request_method !~ ^(GET|HEAD|POST|PUT|PATCH|DELETE|OPTIONS)$) {
+            return 405;
+        }
+
+        add_header X-Content-Type-Options "nosniff" always;
+        add_header X-Frame-Options "DENY" always;
+        add_header Referrer-Policy "no-referrer" always;
+        add_header Permissions-Policy "camera=(self), microphone=(), geolocation=(), payment=(), usb=(), serial=(), bluetooth=(), interest-cohort=()" always;
+        add_header Cross-Origin-Opener-Policy "same-origin" always;
+        add_header Cross-Origin-Resource-Policy "same-origin" always;
+        add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+
+        # Nada de archivos ocultos (.git, .env…) ni sourcemaps.
+        location ~ /\.(?!well-known) {
+            return 404;
+        }
+        location ~* \.map$ {
+            return 404;
+        }
+
+        # --- Documento HTML (SPA): CSP con nonce por petición y no-store ---
+        location = /index.html {
+            sub_filter_once off;
+            sub_filter '__CSP_NONCE__' '$request_id';
+            add_header Cache-Control "no-store, max-age=0" always;
+            add_header Content-Security-Policy "default-src 'none'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self'; style-src 'self' 'nonce-$request_id'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self'; connect-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests;" always;
+            add_header X-Content-Type-Options "nosniff" always;
+            add_header X-Frame-Options "DENY" always;
+            add_header Referrer-Policy "no-referrer" always;
+            add_header Permissions-Policy "camera=(self), microphone=(), geolocation=(), payment=(), usb=(), serial=(), bluetooth=(), interest-cohort=()" always;
+            add_header Cross-Origin-Opener-Policy "same-origin" always;
+            add_header Cross-Origin-Resource-Policy "same-origin" always;
+            add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+        }
+
+        location = /manifest.webmanifest {
+            default_type application/manifest+json;
+            add_header Cache-Control "no-cache" always;
+            add_header X-Content-Type-Options "nosniff" always;
+            add_header X-Frame-Options "DENY" always;
+            add_header Referrer-Policy "no-referrer" always;
+            add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+            try_files $uri =404;
+        }
+
+        # Endpoint simple para las sondas de Kubernetes (no toca la app).
+        location = /healthz {
+            access_log off;
+            default_type text/plain;
+            return 200 "ok";
+        }
+
+        # SPA fallback.
+        location / {
+            try_files $uri $uri/ /index.html;
+        }
+
+        # Estáticos con hash en el nombre → caché larga.
+        location ~* \.(?:js|css|png|jpg|jpeg|gif|ico|svg|woff2?|ttf|eot|json)$ {
+            try_files $uri =404;
+            expires 1y;
+            add_header Cache-Control "public, immutable" always;
+            add_header X-Content-Type-Options "nosniff" always;
+            add_header X-Frame-Options "DENY" always;
+            add_header Referrer-Policy "no-referrer" always;
+            add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+        }
+
+        # --- API: proxy al Service "backend" ---
+        location /api/ {
+            client_max_body_size 64k;
+            proxy_pass http://backend:8080;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto https;
+            proxy_connect_timeout 5s;
+            proxy_read_timeout 30s;
+            proxy_hide_header X-Powered-By;
+            proxy_hide_header Server;
+            proxy_hide_header Cache-Control;
+            proxy_hide_header Pragma;
+            proxy_hide_header X-Content-Type-Options;
+            proxy_hide_header X-Frame-Options;
+            proxy_hide_header Referrer-Policy;
+            proxy_hide_header Content-Security-Policy;
+            proxy_hide_header Permissions-Policy;
+            proxy_hide_header Cross-Origin-Resource-Policy;
+            proxy_hide_header Cross-Origin-Opener-Policy;
+            proxy_hide_header Strict-Transport-Security;
+            add_header Cache-Control "no-store, max-age=0" always;
+            add_header Pragma "no-cache" always;
+            add_header X-Content-Type-Options "nosniff" always;
+            add_header X-Frame-Options "DENY" always;
+            add_header Referrer-Policy "no-referrer" always;
+            add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+        }
+    }

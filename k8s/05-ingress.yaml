@@ -1,0 +1,31 @@
+# ============================================================
+# SCIAD — Publicación en internet
+# Traefik recibe el tráfico y cert-manager emite el certificado
+# de Let's Encrypt para el dominio público (DuckDNS).
+# ============================================================
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sciad
+  namespace: jsalazart3
+  labels:
+    app.kubernetes.io/part-of: sciad
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - jsalazart3-sciad.duckdns.org
+      secretName: sciad-tls
+  rules:
+    - host: jsalazart3-sciad.duckdns.org
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend
+                port:
+                  number: 80

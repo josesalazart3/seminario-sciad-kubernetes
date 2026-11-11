@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Sciad.Tests</RootNamespace>
+    <AssemblyName>Sciad.Tests</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <!-- Cobertura (coverlet): dotnet test con el collector "XPlat Code Coverage"
+         produce coverage.cobertura.xml bajo el directorio de resultados. -->
+    <CollectCoverage>false</CollectCoverage>
+  </PropertyGroup>
+
+  <!-- El proyecto de tests consume tipos de ASP.NET Core (autorización/RBAC) →
+       se expone el shared framework de forma explícita.
+       Los tests NO arrancan el host: la matriz endpoint×rol E2E ya lo cubre. -->
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <!-- xUnit con ImplicitUsings: se inyecta Xunit como using global
+       para que los atributos [Fact]/[Theory] resuelvan sin usar por archivo. -->
+  <ItemGroup>
+    <Using Include="Xunit" />
+    <!-- Fase 4: los tests construyen "hoy" con la hora de Guatemala, igual que los servicios. -->
+    <Using Include="Sciad.Domain.Time" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="coverlet.collector" Version="6.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Moq" Version="4.20.72" />
+    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Sciad.Domain\Sciad.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Sciad.Application\Sciad.Application.csproj" />
+    <!-- Referencia al Api solo para validar el cableado RBAC por reflexión
+         (policies + atributos [Authorize] de los controladores). -->
+    <ProjectReference Include="..\..\src\Sciad.Api\Sciad.Api.csproj" />
+  </ItemGroup>
+
+</Project>

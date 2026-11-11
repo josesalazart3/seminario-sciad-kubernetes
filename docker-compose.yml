@@ -1,0 +1,110 @@
+# ============================================================
+# SCIAD — docker-compose
+#
+# Fase 2A: levanta frontend (Angular, mock), backend (.NET API)
+# y base de datos (PostgreSQL 16) con healthchecks reales.
+#
+#   docker compose up --build
+#   → Frontend  : http://localhost:8080
+#   → API       : http://localhost:3000   (Swagger: /swagger)
+# ============================================================
+
+services:
+  frontend:
+    build:
+      context: ./sciad-frontend
+      dockerfile: Dockerfile
+    container_name: sciad-frontend
+    # Solo accesible desde ESTE equipo (127.0.0.1): el celular entra por el túnel HTTPS, no por la IP de la red local.
+    ports:
+      - "127.0.0.1:8080:80"
+    # Endurecimiento (OWASP A05): sin escalar privilegios y con el sistema de archivos de solo lectura.
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /var/cache/nginx
+      - /var/run
+      - /tmp
+    restart: unless-stopped
+    healthcheck:
+      # 127.0.0.1 (no "localhost"): nginx escucha solo en IPv4 y "localhost"
+      # resuelve a ::1 dentro del contenedor → el chequeo fallaría sin motivo real.
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1/ >/dev/null || exit 1"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+
+  # ---- FASE 2A: Backend (API REST .NET 8) ----
+  backend:
+    build:
+      context: ./sciad-backend
+      dockerfile: Dockerfile
+    container_name: sciad-backend
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      # Maximum Pool Size (Npgsql) alineado con max_connections de PostgreSQL para
+      # soportar la carga objetivo (300 escaneos concurrentes, RNF-04/CA-13) sin
+      # saturar el pool (default 100). Ajustes de producción en DESPLIEGUE.md.
+      - ConnectionStrings__Postgres=Host=db;Port=5432;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Maximum Pool Size=${POSTGRES_MAX_POOL:-400}
+      - Jwt__Secreto=${SCIAD_JWT_SECRET}
+      # Clave del sobre cifrado de los QR (32 bytes en base64). Requerida: compose se detiene si falta.
+      - QR_ENCRYPTION_KEY=${QR_ENCRYPTION_KEY:?Defina QR_ENCRYPTION_KEY en .env (openssl rand -base64 32)}
+      - Cors__Origins=${SCIAD_CORS_ORIGINS}
+      # Hora (Guatemala) del cierre diario de auditoría. Por defecto 00:05; se cambia solo para probarlo (verify-cierre.mjs).
+      - Auditoria__CierreDiario__Hora=${AUDITORIA_CIERRE_HORA:-00:05}
+      # Hosts permitidos (cabecera Host). En desarrollo se acepta cualquiera (el túnel cambia de dominio en cada arranque).
+      - AllowedHosts=${ALLOWED_HOSTS:-*}
+      # Límites de tasa (SEC-04). Los valores por defecto son los de PG2 (5 intentos/5 min por IP en login; 1500/min global).
+      # Solo para PRUEBAS se pueden elevar al levantar el backend, p. ej.:  RATE_LIMIT_LOGIN_PERMIT=60 docker compose up -d backend
+      - RateLimit__LoginPermitLimit=${RATE_LIMIT_LOGIN_PERMIT:-5}
+      - RateLimit__LoginWindowSeconds=${RATE_LIMIT_LOGIN_WINDOW:-300}
+      - RateLimit__GlobalPermitLimit=${RATE_LIMIT_GLOBAL_PERMIT:-1500}
+    depends_on:
+      db:
+        condition: service_healthy
+    # Solo desde este equipo (127.0.0.1): la API/Swagger de desarrollo NO quedan expuestos a la red local.
+    ports:
+      - "127.0.0.1:3000:8080"
+    # Endurecimiento (OWASP A05): usuario no root (Dockerfile), sin capacidades, sin escalar privilegios, solo lectura.
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    read_only: true
+    tmpfs:
+      - /tmp
+    restart: unless-stopped
+    healthcheck:
+      # Confirma que la API responde y que la BD está operativa (GET /api/health).
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  # ---- FASE 2A: Base de datos ----
+  db:
+    image: postgres:16-alpine
+    container_name: sciad-db
+    # max_connections por encima del default (100): con 300 escaneos concurrentes y
+    # pool Npgsql >= 300, PG necesita admitir esa cantidad simultánea de conexiones.
+    command: ["postgres", "-c", "max_connections=${POSTGRES_MAX_CONNECTIONS:-400}"]
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - sciad-db-data:/var/lib/postgresql/data
+    # SIN puertos publicados: la base de datos solo es alcanzable desde la red interna de Docker.
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  sciad-db-data:

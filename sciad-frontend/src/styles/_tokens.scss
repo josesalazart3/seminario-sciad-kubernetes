@@ -1,0 +1,118 @@
+// ============================================================
+// SCIAD — Design Tokens (fuente de verdad: DESIGN_SYSTEM.md)
+// ============================================================
+// Basado en DESIGN_SYSTEM.md sección 2-9. Light por defecto;
+// dark mode opcional vía [data-theme="dark"].
+// ============================================================
+
+:root {
+  // --- Marca ---
+  --sciad-brand: #3b5bdb;
+  --sciad-brand-strong: #2f4ac0;
+  --sciad-brand-soft: #e7ecfd;
+
+  // --- Semánticos ---
+  --sciad-success: #157f43;
+  --sciad-success-soft: #e3f5ea;
+  --sciad-danger: #c62828;
+  --sciad-danger-soft: #fbe9e9;
+  --sciad-warning: #b26a00;
+  --sciad-warning-soft: #fdf2e0;
+  --sciad-info: #0b6bcb;
+  --sciad-info-soft: #e3f0fc;
+
+  // --- Neutros (slate) ---
+  --gray-25: #fbfcfe;
+  --gray-50: #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-300: #cbd5e1;
+  --gray-400: #94a3b8;
+  --gray-500: #64748b;
+  --gray-600: #475569;
+  --gray-700: #334155;
+  --gray-800: #1e293b;
+  --gray-900: #0f172a;
+
+  // --- Superficies ---
+  --surface: #ffffff;
+  --surface-muted: #f4f6fb;
+  --surface-sunken: #eef1f7;
+  --border: #e3e8f0;
+  --border-strong: #cbd5e1;
+
+  // --- Texto ---
+  --text: #0f172a;
+  --text-muted: #5b6675;
+  --text-subtle: #8a93a3;
+
+  // --- Radios ---
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  // --- Sombras ---
+  --shadow-sm: 0 1px 2px rgb(15 23 42 / 0.06);
+  --shadow-md: 0 4px 12px rgb(15 23 42 / 0.08);
+  --shadow-lg: 0 12px 32px rgb(15 23 42 / 0.12);
+
+  // --- Layout / densidad ---
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  --sidebar-w: 248px;
+  --topbar-h: 60px;
+
+  // --- Tipografía ---
+  --font-display: 'Inter Tight', 'Inter', system-ui, -apple-system, 'Segoe UI',
+    Roboto, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas,
+    monospace;
+
+  // --- Motion ---
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 140ms;
+  --dur: 200ms;
+
+  color-scheme: light;
+}
+
+// --- Dark mode (bonus opcional) ---
+:root[data-theme='dark'] {
+  --surface: #0f1420;
+  --surface-muted: #151b2a;
+  --surface-sunken: #1a2132;
+  --border: #24314a;
+  --border-strong: #33456a;
+
+  --gray-25: #0b0f18;
+  --gray-50: #0f1420;
+  --gray-100: #151b2a;
+  --gray-200: #1f2a3f;
+  --gray-300: #33456a;
+  --gray-400: #5b6b8f;
+  --gray-500: #7c8bad;
+  --gray-600: #9aa6c2;
+  --gray-700: #b6bfd6;
+  --gray-800: #d3d9e8;
+  --gray-900: #eef1f7;
+
+  --text: #eef1f7;
+  --text-muted: #c2cadf;
+  --text-subtle: #8a93a3;
+
+  --sciad-brand-soft: #182344;
+  --sciad-success-soft: #12341f;
+  --sciad-danger-soft: #3a1c1c;
+  --sciad-warning-soft: #36291a;
+  --sciad-info-soft: #14273d;
+
+  color-scheme: dark;
+}

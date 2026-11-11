@@ -1,0 +1,9 @@
+{
+  "name": "sciad-tests-fase2",
+  "private": true,
+  "type": "module",
+  "description": "Fase 2: valida nginx (cabeceras, manifest) y la instalabilidad PWA con Chromium real.",
+  "scripts": { "test": "node --no-warnings pwa-nginx.test.mjs" },
+  "devDependencies": { "puppeteer-core": "25.12.0" },
+  "optionalDependencies": { "@sparticuz/chromium": "153.0.0" }
+}

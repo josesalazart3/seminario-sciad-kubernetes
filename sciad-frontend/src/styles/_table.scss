@@ -1,0 +1,132 @@
+// ============================================================
+// SCIAD — Estilos de tablas de datos (DataTable)
+// ============================================================
+
+.sci-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.sci-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+
+  th {
+    text-align: left;
+    padding: 10px 16px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-subtle);
+    background: var(--surface-muted);
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  th.sortable {
+    cursor: pointer;
+    user-select: none;
+    &:hover {
+      color: var(--text);
+    }
+  }
+  .th-sort {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: middle;
+  }
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+  tbody tr {
+    transition: background var(--dur-fast) var(--ease-out);
+  }
+  tbody tr:hover {
+    background: var(--surface-muted);
+  }
+
+  .cell-strong {
+    font-weight: 600;
+    color: var(--text);
+  }
+  .cell-muted {
+    color: var(--text-muted);
+  }
+  .cell-mono {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .cell-actions {
+    display: flex;
+    gap: 4px;
+    justify-content: flex-end;
+  }
+}
+
+.sci-btn-ghost {
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  &:hover {
+    background: var(--surface-sunken);
+    color: var(--text);
+  }
+  &.danger-text:hover {
+    background: var(--sciad-danger-soft);
+    color: var(--sciad-danger);
+  }
+}
+
+/* Skeleton de fila mientras carga */
+.sci-skel-row {
+  height: 48px;
+  td {
+    padding: 10px 16px;
+  }
+  .skel {
+    height: 12px;
+    border-radius: 6px;
+    background: linear-gradient(
+      90deg,
+      var(--surface-sunken) 25%,
+      var(--surface-muted) 50%,
+      var(--surface-sunken) 75%
+    );
+    background-size: 200% 100%;
+    animation: sciad-shimmer 1.2s infinite;
+  }
+}
+@keyframes sciad-shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+// Responsive: celdas que se ocultan en móvil con .hide-sm
+@media (max-width: 639px) {
+  .hide-sm {
+    display: none;
+  }
+}
+@media (max-width: 1023px) {
+  .hide-md {
+    display: none;
+  }
+}

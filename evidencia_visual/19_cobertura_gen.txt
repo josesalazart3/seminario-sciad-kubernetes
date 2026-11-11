@@ -1,0 +1,7 @@
+2026-09-19T01:21:15: Arguments
+2026-09-19T01:21:15:  -reports:tests/Sciad.Tests/TestResults/*/coverage.cobertura.xml
+2026-09-19T01:21:15:  -targetdir:evidencia_cobertura
+2026-09-19T01:21:15:  -reporttypes:Html
+2026-09-19T01:21:20: Writing report file 'evidencia_cobertura/index.html'
+2026-09-19T01:21:21: Report generation took 4.3 seconds
+EXIT CODE: 0

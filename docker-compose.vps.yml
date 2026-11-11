@@ -1,0 +1,45 @@
+# ============================================================
+# SCIAD (tesis) — override para el VPS compartido con el Colegio (Estrategia B)
+# Uso SIEMPRE con nombre de proyecto propio:
+#   docker compose -p sciad-tesis -f docker-compose.prod.yml -f docker-compose.vps.yml --env-file .env.prod <cmd>
+# Cambios frente a docker-compose.prod.yml (que NO se modifica):
+#   • Nombres propios: contenedores sciad-tesis-*, imágenes sciad-tesis/* (no chocan con sciad-prod-* del Colegio).
+#   • Red propia 172.21.0.0/24 (el Colegio usa 172.20.0.0/24); volumen sciad-tesis_prod-db-data (por -p).
+#   • El frontend publica SOLO 8443→443 (TLS propio). El 80 del host sigue siendo del Colegio.
+#   • nginx.vps.conf (generado por generar-nginx-vps.sh) se monta sobre la config horneada en la imagen.
+#   • KnownProxies = IP fija del nginx de la tesis en la nueva red.
+# ============================================================
+services:
+  frontend:
+    image: sciad-tesis/frontend:latest
+    container_name: sciad-tesis-frontend
+    ports: !override
+      - "8443:443"
+    volumes: !override
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /var/www/certbot:/var/www/certbot:ro
+      - ./nginx.vps.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      prod-net:
+        ipv4_address: 172.21.0.10
+
+  backend:
+    image: sciad-tesis/backend:latest
+    container_name: sciad-tesis-backend
+    environment:
+      - ForwardedHeaders__KnownProxies=172.21.0.10
+    networks:
+      prod-net:
+        ipv4_address: 172.21.0.20
+
+  db:
+    container_name: sciad-tesis-db
+    networks:
+      prod-net:
+        ipv4_address: 172.21.0.30
+
+networks:
+  prod-net:
+    ipam:
+      config: !override
+        - subnet: 172.21.0.0/24

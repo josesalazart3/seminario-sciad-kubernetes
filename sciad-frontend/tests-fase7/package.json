@@ -1,0 +1,9 @@
+{
+  "name": "sciad-tests-fase7",
+  "private": true,
+  "type": "module",
+  "description": "Fase 7: cabeceras y CSP con nginx real + Chromium. Reutiliza node_modules de tests-fase1.",
+  "scripts": { "test:csp": "node --no-warnings headers-csp.test.mjs" },
+  "devDependencies": { "puppeteer-core": "25.12.0" },
+  "optionalDependencies": { "@sparticuz/chromium": "153.0.0" }
+}

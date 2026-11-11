@@ -1,0 +1,9 @@
+{
+  "name": "sciad-tests-fase5",
+  "private": true,
+  "type": "module",
+  "description": "Fase 5: E2E contra el stack REAL (Docker) con cámara simulada. Reutiliza node_modules de tests-fase1.",
+  "scripts": { "test:real": "node --no-warnings e2e-real.mjs" },
+  "devDependencies": { "puppeteer-core": "25.12.0" },
+  "optionalDependencies": { "@sparticuz/chromium": "153.0.0" }
+}

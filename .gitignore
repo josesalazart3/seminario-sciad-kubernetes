@@ -1,0 +1,25 @@
+# Secretos locales (nunca versionar)
+.env
+.env.prod
+.env.prod.local
+*.env.local
+
+# .NET
+sciad-backend/bin/
+sciad-backend/obj/
+sciad-backend/tests/**/bin/
+sciad-backend/tests/**/obj/
+sciad-backend/tests/TestResults/
+
+# Salida del script de datos demo (contiene tokens QR)
+demo-credenciales.json
+demo-gafetes.html
+
+# Reportes de escaneo de seguridad (ZAP)
+zap-reportes/
+
+# Caché de tokens JWT de las pruebas verify-*.mjs (contiene JWT reales, aunque de corta vida)
+sciad-backend/evidencia/.tokens.json
+
+# Respaldos de scripts/reset-datos (contienen datos reales: nunca versionar)
+backups/

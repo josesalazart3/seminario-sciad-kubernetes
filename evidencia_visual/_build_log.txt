@@ -1,0 +1,147 @@
+ Image sciad-frontend Building 
+ Image sciad-backend Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.17kB 0.0s done
+#1 DONE 0.0s
+
+#2 [backend internal] load build definition from Dockerfile
+#2 transferring dockerfile: 680B 0.0s done
+#2 DONE 0.0s
+
+#3 [frontend internal] load build definition from Dockerfile
+#3 transferring dockerfile: 1.13kB 0.0s done
+#3 DONE 0.0s
+
+#4 [backend internal] load metadata for mcr.microsoft.com/dotnet/sdk:8.0
+#4 DONE 0.1s
+
+#5 [frontend internal] load metadata for docker.io/library/nginx:1.27-alpine
+#5 DONE 0.1s
+
+#6 [frontend internal] load metadata for docker.io/library/node:22-alpine
+#6 ...
+
+#7 [backend internal] load metadata for mcr.microsoft.com/dotnet/aspnet:8.0
+#7 DONE 0.6s
+
+#8 [backend internal] load .dockerignore
+#8 transferring context: 73B 0.0s done
+#8 DONE 0.0s
+
+#6 [frontend internal] load metadata for docker.io/library/node:22-alpine
+#6 DONE 0.6s
+
+#9 [backend internal] load build context
+#9 DONE 0.0s
+
+#10 [frontend internal] load .dockerignore
+#10 transferring context: 285B 0.0s done
+#10 DONE 0.0s
+
+#11 [backend build 1/5] FROM mcr.microsoft.com/dotnet/sdk:8.0@sha256:306301580fcaa5b445180e759db59309979002d1000669cb4cf58a567d0014bc
+#11 resolve mcr.microsoft.com/dotnet/sdk:8.0@sha256:306301580fcaa5b445180e759db59309979002d1000669cb4cf58a567d0014bc
+#11 resolve mcr.microsoft.com/dotnet/sdk:8.0@sha256:306301580fcaa5b445180e759db59309979002d1000669cb4cf58a567d0014bc 0.1s done
+#11 DONE 0.1s
+
+#12 [backend runtime 1/4] FROM mcr.microsoft.com/dotnet/aspnet:8.0@sha256:9a464e9a7e8c6144631020975f703c89034fe386417cb740620df69c2c6cfe24
+#12 resolve mcr.microsoft.com/dotnet/aspnet:8.0@sha256:9a464e9a7e8c6144631020975f703c89034fe386417cb740620df69c2c6cfe24 0.1s done
+#12 DONE 0.1s
+
+#13 [frontend build 1/6] FROM docker.io/library/node:22-alpine@sha256:b6f26b36c8ff49624cfdac716b8ea1138d606df02586a77d364bb5536a634f85
+#13 resolve docker.io/library/node:22-alpine@sha256:b6f26b36c8ff49624cfdac716b8ea1138d606df02586a77d364bb5536a634f85 0.1s done
+#13 DONE 0.1s
+
+#14 [frontend stage-1 1/3] FROM docker.io/library/nginx:1.27-alpine@sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10
+#14 resolve docker.io/library/nginx:1.27-alpine@sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10 0.1s done
+#14 DONE 0.1s
+
+#15 [frontend internal] load build context
+#15 transferring context: 4.03kB 0.0s done
+#15 DONE 0.1s
+
+#9 [backend internal] load build context
+#9 transferring context: 69.99kB 0.1s done
+#9 DONE 0.1s
+
+#16 [frontend stage-1 2/3] COPY nginx.conf /etc/nginx/conf.d/default.conf
+#16 CACHED
+
+#17 [frontend build 3/6] COPY package.json package-lock.json ./
+#17 CACHED
+
+#18 [frontend build 5/6] COPY . .
+#18 CACHED
+
+#19 [frontend build 6/6] RUN npm run build -- --configuration production
+#19 CACHED
+
+#20 [frontend build 4/6] RUN npm ci
+#20 CACHED
+
+#21 [frontend build 2/6] WORKDIR /app
+#21 CACHED
+
+#22 [frontend stage-1 3/3] COPY --from=build /app/dist/sciad-frontend/browser /usr/share/nginx/html
+#22 CACHED
+
+#23 [backend build 3/5] COPY . .
+#23 CACHED
+
+#24 [backend build 5/5] RUN dotnet publish src/Sciad.Api/Sciad.Api.csproj -c Release -o /app/publish
+#24 CACHED
+
+#25 [backend build 2/5] WORKDIR /src
+#25 CACHED
+
+#26 [backend runtime 3/4] WORKDIR /app
+#26 CACHED
+
+#27 [backend build 4/5] RUN dotnet restore Sciad.sln
+#27 CACHED
+
+#28 [backend runtime 2/4] RUN apt-get update  && apt-get install -y --no-install-recommends curl  && rm -rf /var/lib/apt/lists/*
+#28 CACHED
+
+#29 [backend runtime 4/4] COPY --from=build /app/publish .
+#29 CACHED
+
+#30 [backend] exporting to image
+#30 exporting layers
+#30 exporting layers done
+#30 exporting manifest sha256:15fc67f94236000abb1942feeba75fb0f6ad22dd673e321db0f472517de58bfc done
+#30 exporting config sha256:b8cca6c25026d5d087de872d5989a80a37e85c605610c14d456ee9879c7db831 done
+#30 exporting attestation manifest sha256:e3bbd30356914a256264b3a3146834bef192971e4ae496a6d92a51187a0e9e11 0.0s done
+#30 exporting manifest list sha256:a64003cee26bf2b264dc146e270b11f2127eb61eb98b7f83cb3f96a740acaf4c 0.0s done
+#30 naming to docker.io/library/sciad-backend:latest
+#30 naming to docker.io/library/sciad-backend:latest done
+#30 unpacking to docker.io/library/sciad-backend:latest 0.0s done
+#30 DONE 0.2s
+
+#31 [frontend] exporting to image
+#31 exporting layers 0.0s done
+#31 exporting manifest sha256:03e9cdeaee67c8829eb3b68601cb048dc0c60a404dea632363fc1d0dfce8877d 0.0s done
+#31 exporting config sha256:2b32305c0f4540ae74182ed48e0af375a6d244fab07ca08ffd5ae7893b28fa02 done
+#31 exporting attestation manifest sha256:b749bbf8363147c5274a0e8966f2adb704247ef4d3f7b0a9810add42e0e5be56 0.0s done
+#31 exporting manifest list sha256:ec2276c23f9d7c7fd7929437010c8de8e1c84af8145c6fffb9e10a5e713932c2 0.0s done
+#31 naming to docker.io/library/sciad-frontend:latest done
+#31 unpacking to docker.io/library/sciad-frontend:latest 0.0s done
+#31 DONE 0.4s
+
+#32 [backend] resolving provenance for metadata file
+#32 DONE 0.0s
+
+#33 [frontend] resolving provenance for metadata file
+#33 DONE 0.0s
+ Image sciad-frontend Built 
+ Image sciad-backend Built 
+ Container sciad-db Running 
+ Container sciad-backend Recreate 
+ Container sciad-frontend Recreate 
+ Container sciad-frontend Recreated 
+ Container sciad-backend Recreated 
+ Container sciad-frontend Starting 
+ Container sciad-db Waiting 
+ Container sciad-db Healthy 
+ Container sciad-backend Starting 
+ Container sciad-frontend Started 
+ Container sciad-backend Started 

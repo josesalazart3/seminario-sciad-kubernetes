@@ -1,0 +1,22 @@
+  Determining projects to restore...
+  Restored /app/src/Sciad.Application/Sciad.Application.csproj (in 8.49 sec).
+  Restored /app/tests/Sciad.Tests/Sciad.Tests.csproj (in 18.1 sec).
+  Restored /app/src/Sciad.Infrastructure/Sciad.Infrastructure.csproj (in 18.31 sec).
+  Restored /app/src/Sciad.Api/Sciad.Api.csproj (in 18.31 sec).
+  1 of 5 projects are up-to-date for restore.
+  Sciad.Domain -> /app/src/Sciad.Domain/bin/Debug/net8.0/Sciad.Domain.dll
+  Sciad.Application -> /app/src/Sciad.Application/bin/Debug/net8.0/Sciad.Application.dll
+  Sciad.Infrastructure -> /app/src/Sciad.Infrastructure/bin/Debug/net8.0/Sciad.Infrastructure.dll
+  Sciad.Api -> /app/src/Sciad.Api/bin/Debug/net8.0/Sciad.Api.dll
+  Sciad.Tests -> /app/tests/Sciad.Tests/bin/Debug/net8.0/Sciad.Tests.dll
+Test run for /app/tests/Sciad.Tests/bin/Debug/net8.0/Sciad.Tests.dll (.NETCoreApp,Version=v8.0)
+VSTest version 17.11.1 (x64)
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:   162, Skipped:     0, Total:   162, Duration: 1 s - Sciad.Tests.dll (net8.0)
+
+Attachments:
+  /app/tests/Sciad.Tests/TestResults/007d5baa-4e38-4443-a674-e4e05fedbe4b/coverage.cobertura.xml
+EXIT CODE: 0

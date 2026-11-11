@@ -1,0 +1,17 @@
+# Dependencias y artefactos de build — no entran al contexto de Docker
+node_modules
+dist
+.angular
+
+# Control de versiones
+.git
+.gitignore
+
+# Entorno local
+.vscode
+.idea
+
+# Artefactos generados por otras herramientas
+*.log
+.ds_store
+thumbs.db

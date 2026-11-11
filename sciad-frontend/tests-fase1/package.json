@@ -1,0 +1,19 @@
+{
+  "name": "sciad-tests-fase1",
+  "private": true,
+  "type": "module",
+  "description": "Pruebas de la Fase 1 (escáner QR con cámara). Independiente del package.json de la app.",
+  "scripts": {
+    "test:logic": "node --experimental-transform-types --no-warnings logic.test.mjs",
+    "test:qr": "node --no-warnings qr-roundtrip.test.mjs",
+    "prep:video": "node mkqr.mjs && python3 mkvideo.py",
+    "test:e2e": "node --no-warnings e2e.mjs",
+    "test": "npm run test:logic && npm run test:qr && npm run prep:video && npm run test:e2e"
+  },
+  "devDependencies": {
+    "puppeteer-core": "25.12.0"
+  },
+  "optionalDependencies": {
+    "@sparticuz/chromium": "153.0.0"
+  }
+}

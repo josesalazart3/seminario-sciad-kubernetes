@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>SCIAD — Control de Acceso</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="SCIAD — Sistema de Control Integral de Identidad y Acceso Digital basado en credenciales QR.">
+  <meta name="theme-color" content="#3b5bdb">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="SCIAD">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+</head>
+<body>
+  <!-- nginx sustituye __CSP_NONCE__ por un valor aleatorio por petición (CSP estricta: style-src con nonce) -->
+  <app-root ngCspNonce="__CSP_NONCE__"></app-root>
+</body>
+</html>
