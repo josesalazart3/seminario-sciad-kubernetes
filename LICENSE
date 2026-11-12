@@ -1,0 +1,62 @@
+SCIAD - Sistema de Control Integral de Identidad y Acceso Digital
+LICENCIA PROPIETARIA / PROPRIETARY LICENSE
+
+Copyright (c) 2026 José Leonel Salazar Tejeda. Todos los derechos reservados.
+Copyright (c) 2026 José Leonel Salazar Tejeda. All rights reserved.
+
+Este software NO es de código abierto. / This software is NOT open source.
+
+1. TITULARIDAD
+   El código fuente, la documentación y los demás materiales originales de este
+   repositorio (el "Software") son propiedad exclusiva de José Leonel Salazar
+   Tejeda (el "Titular"). Esta licencia no transfiere ninguna propiedad al usuario.
+
+2. PERMISO LIMITADO DE EVALUACIÓN
+   Se concede, de forma gratuita, un permiso limitado, no exclusivo, no
+   transferible, no sublicenciable y revocable para VER el Software y EJECUTARLO
+   únicamente con fines de evaluación académica del proyecto final del Seminario
+   en la Universidad Mariano Gálvez de Guatemala (catedráticos y personal
+   evaluador).
+
+3. RESTRICCIONES
+   Sin autorización previa y por escrito del Titular está prohibido:
+   a) copiar, reproducir o redistribuir el Software, total o parcialmente;
+   b) modificarlo, adaptarlo o crear obras derivadas;
+   c) publicarlo, alojarlo o ponerlo a disposición de terceros;
+   d) venderlo, alquilarlo, sublicenciarlo u ofrecerlo como servicio;
+   e) usarlo con fines comerciales o en entornos de producción;
+   f) usar el nombre "SCIAD" o el nombre del Titular para promocionar productos
+      derivados;
+   g) eliminar o alterar los avisos de titularidad.
+
+4. COMPONENTES DE TERCEROS
+   El Software utiliza componentes de terceros con sus propias licencias
+   (por ejemplo Angular y .NET, MIT; PostgreSQL, licencia PostgreSQL; nginx, BSD
+   de 2 cláusulas; Kubernetes, k3s y cert-manager, Apache 2.0). Esta licencia no
+   los afecta: cada uno se rige por su licencia original, cuyos avisos deben
+   conservarse. El inventario está en THIRD_PARTY_LICENSES.md.
+
+5. LICENCIAMIENTO COMERCIAL
+   El Titular prevé comercializar el Software. Para cualquier uso distinto del
+   permitido en la cláusula 2, contactar al Titular a través de su perfil de
+   GitHub (josesalazart3).
+
+6. SIN GARANTÍA
+   EL SOFTWARE SE ENTREGA "TAL CUAL", SIN GARANTÍA DE NINGÚN TIPO, EXPRESA O
+   IMPLÍCITA, INCLUIDAS LAS DE COMERCIABILIDAD, IDONEIDAD PARA UN FIN PARTICULAR
+   Y NO INFRACCIÓN. EL TITULAR NO SERÁ RESPONSABLE DE DAÑOS DERIVADOS DEL USO DEL
+   SOFTWARE.
+
+7. VIGENCIA
+   El permiso de la cláusula 2 termina automáticamente si se incumple esta
+   licencia. Al terminar, debe cesar todo uso y eliminarse toda copia.
+
+8. LEY APLICABLE
+   Esta licencia se rige por las leyes de la República de Guatemala, incluida la
+   Ley de Derecho de Autor y Derechos Conexos (Decreto 33-98).
+
+ENGLISH SUMMARY: All rights reserved. Viewing and running the Software is allowed
+only for academic evaluation of this project. Copying, modifying, distributing,
+selling or any commercial/production use requires the owner's prior written
+permission. Third-party components keep their own licenses. Provided "as is",
+without warranty.
