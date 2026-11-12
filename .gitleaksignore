@@ -1,0 +1,5 @@
+# Falsos positivos verificados el 2026-11-12:
+# - DERCAS_completo.md: token de ejemplo con relleno literal
+# - verify-validaciones.mjs: contrasena de usuario de prueba (no coincide con secretos del cluster)
+2ea5ec58306f26a837992ff1d48099d0cdf520ad:Documentacion/DERCAS_completo.md:generic-api-key:548
+2ea5ec58306f26a837992ff1d48099d0cdf520ad:sciad-backend/verify-validaciones.mjs:generic-api-key:116
